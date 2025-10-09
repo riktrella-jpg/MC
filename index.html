@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Método MANADA: Un Enfoque Integral de Entrenamiento Canino</title>
-    <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Estilos personalizados para la tipografía y el fondo */
@@ -24,7 +23,6 @@
 <body class="bg-gray-900 text-white min-h-screen p-4 sm:p-8">
 
     <div class="max-w-6xl mx-auto">
-        <!-- Encabezado -->
         <header class="text-center mb-12">
             <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight text-blue-400 mb-4">
                 Método <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-red-500">MANADA</span>
@@ -39,12 +37,9 @@
             </div>
         </header>
 
-        <!-- Acrónimo Interactivo -->
-        <main id="manada-grid" class="grid grid-cols-2 md:grid-cols-3 gap-6">
-            <!-- Las tarjetas se generan dinámicamente o se definen aquí -->
-
-            <!-- Tarjeta M -->
-            <div id="card-M" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg" data-key="M">
+        <main id="manada-grid" class="flex space-x-6 overflow-x-auto py-2">
+            
+            <div id="card-M" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg flex-shrink-0 w-64" data-key="M">
                 <h2 class="text-4xl font-black text-blue-400">M</h2>
                 <h3 class="text-xl font-semibold mt-1">Mindfulness Canino</h3>
                 <p class="text-sm text-gray-400 mt-2">Calma y Respiración Guiada con el Tutor.</p>
@@ -54,8 +49,7 @@
                 </div>
             </div>
 
-            <!-- Tarjeta A (Apego) -->
-            <div id="card-A1" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg" data-key="A1">
+            <div id="card-A1" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg flex-shrink-0 w-64" data-key="A1">
                 <h2 class="text-4xl font-black text-yellow-400">A</h2>
                 <h3 class="text-xl font-semibold mt-1">Apego Seguro</h3>
                 <p class="text-sm text-gray-400 mt-2">Creación de Vínculo y Señales de Confianza.</p>
@@ -65,8 +59,7 @@
                 </div>
             </div>
             
-            <!-- Tarjeta N -->
-            <div id="card-N" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg" data-key="N">
+            <div id="card-N" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg flex-shrink-0 w-64" data-key="N">
                 <h2 class="text-4xl font-black text-green-400">N</h2>
                 <h3 class="text-xl font-semibold mt-1">Normas Básicas</h3>
                 <p class="text-sm text-gray-400 mt-2">"Sentado", "Quieto", "Junto" y Llamadas Fiables.</p>
@@ -76,8 +69,7 @@
                 </div>
             </div>
 
-            <!-- Tarjeta A (Autocontrol) -->
-            <div id="card-A2" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg" data-key="A2">
+            <div id="card-A2" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg flex-shrink-0 w-64" data-key="A2">
                 <h2 class="text-4xl font-black text-red-400">A</h2>
                 <h3 class="text-xl font-semibold mt-1">Autocontrol</h3>
                 <p class="text-sm text-gray-400 mt-2">Tolerancia a la Frustración y Gestión de Impulsos.</p>
@@ -87,8 +79,7 @@
                 </div>
             </div>
 
-            <!-- Tarjeta D -->
-            <div id="card-D" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg" data-key="D">
+            <div id="card-D" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg flex-shrink-0 w-64" data-key="D">
                 <h2 class="text-4xl font-black text-purple-400">D</h2>
                 <h3 class="text-xl font-semibold mt-1">Desensibilización</h3>
                 <p class="text-sm text-gray-400 mt-2">Exposición Gradual a Estímulos Aversivos.</p>
@@ -98,8 +89,7 @@
                 </div>
             </div>
 
-            <!-- Tarjeta A (Acompañamiento) -->
-            <div id="card-A3" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg" data-key="A3">
+            <div id="card-A3" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg flex-shrink-0 w-64" data-key="A3">
                 <h2 class="text-4xl font-black text-teal-400">A</h2>
                 <h3 class="text-xl font-semibold mt-1">Acompañamiento Público</h3>
                 <p class="text-sm text-gray-400 mt-2">Protocolos en Calle, Cafés, Clínicas y Transporte.</p>
@@ -110,12 +100,10 @@
             </div>
         </main>
 
-        <!-- Sección de Instrucciones para la Interacción -->
         <div class="mt-12 text-center p-6 bg-gray-800 rounded-xl shadow-xl">
             <p class="text-lg font-semibold text-white">¡Haz clic en cualquiera de las letras M-A-N-A-D-A para descubrir el concepto completo de cada fase!</p>
         </div>
 
-        <!-- Sección de Asistente de Entrenamiento (Gemini API Integration) -->
         <section class="mt-12 p-8 bg-gray-800 rounded-2xl shadow-2xl border-2 border-yellow-500/50">
             <h2 class="text-3xl font-bold text-center text-blue-200 mb-6 flex items-center justify-center">
                 <span class="mr-3">✨ Entrenador Asistente MANADA✨</span>
@@ -131,7 +119,6 @@
                 </button>
             </div>
 
-            <!-- Área de Resultados -->
             <div id="trainer-response-container" class="mt-6 border-t border-gray-700 pt-6">
                 <p id="trainer-response" class="text-gray-200 whitespace-pre-wrap">Aquí aparecerá el consejo de entrenamiento de nuestro asistente virtual.</p>
                 <div id="sources-container" class="text-sm text-gray-400 mt-4"></div>
@@ -168,7 +155,8 @@
 
             // --- Gemini API Integration Logic ---
 
-            const apiKey = ""; // API key is provided by the environment
+            // MODIFICACIÓN CLAVE: Debes insertar tu clave API real aquí.
+            const apiKey = "TU_CLAVE_API_DE_GEMINI_AQUÍ"; 
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
             const queryInput = document.getElementById('trainer-query');
@@ -192,6 +180,7 @@
                                 await sleep(delay);
                                 continue;
                             }
+                            // Un error de autenticación (400, 401, 403) debería ser capturado aquí
                             throw new Error(`HTTP error! Status: ${response.status}`);
                         }
                         return response;
@@ -216,6 +205,14 @@
                 askButton.textContent = '...Pensando (Gemini)...';
                 responseDisplay.textContent = 'Buscando el mejor protocolo de MANADA...';
                 sourcesContainer.innerHTML = '';
+                
+                // CRUCIAL: Revisa si la clave API está vacía antes de intentar la conexión
+                if (apiKey === "TU_CLAVE_API_DE_GEMINI_AQUÍ" || apiKey.length < 10) { 
+                    responseDisplay.textContent = "Error de configuración: Por favor, inserta tu clave API real de Gemini en el código.";
+                    askButton.disabled = false;
+                    askButton.textContent = 'Preguntar a Gemini';
+                    return;
+                }
 
                 const systemPrompt = "Actúa como un entrenador canino certificado, experto en la metodología MANADA (Mindfulness, Apego, Normas, Autocontrol, Desensibilización, Acompañamiento). Proporciona consejos concisos, prácticos y basados estrictamente en el refuerzo positivo. Tu respuesta debe estar completamente en español y debe intentar referenciar uno o más pasos del método MANADA si es aplicable. Limita la respuesta a un máximo de 5 frases cortas y claras.";
 
@@ -262,12 +259,13 @@
                             }
                         }
                     } else {
+                        // Captura errores de respuesta de la API (ej. JSON sin texto)
                         responseDisplay.textContent = "Error al obtener la respuesta del asistente. Intenta con otra pregunta.";
                     }
 
                 } catch (error) {
                     console.error("Gemini API call failed:", error);
-                    responseDisplay.textContent = "Error de conexión con el asistente. Por favor, revisa tu conexión e inténtalo de nuevo.";
+                    responseDisplay.textContent = "Error de conexión con el asistente. Asegúrate de que tu clave API sea correcta e inténtalo de nuevo.";
                 } finally {
                     askButton.disabled = false;
                     askButton.textContent = 'Preguntar a Gemini';
