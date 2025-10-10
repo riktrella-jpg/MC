@@ -157,7 +157,7 @@
 
             // MODIFICACIÓN CLAVE: Debes insertar tu clave API real aquí.
             const apiKey = "AIzaSyByPz16b5wHOK-1ZUa_O1Qvw7_jTzNh_fM"; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${AIzaSyByPz16b5wHOK-1ZUa_O1Qvw7_jTzNh_fM}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
             const queryInput = document.getElementById('trainer-query');
             const askButton = document.getElementById('ask-button');
@@ -207,7 +207,7 @@
                 sourcesContainer.innerHTML = '';
                 
                 // CRUCIAL: Revisa si la clave API está vacía antes de intentar la conexión
-                if (apiKey === "TU_CLAVE_API_DE_GEMINI_AQUÍ" || apiKey.length < 10) { 
+                if (apiKey === "AIzaSyByPz16b5wHOK-1ZUa_O1Qvw7_jTzNh_fM" || apiKey.length < 10) { 
                     responseDisplay.textContent = "Error de configuración: Por favor, inserta tu clave API real de Gemini en el código.";
                     askButton.disabled = false;
                     askButton.textContent = 'Preguntar a Gemini';
@@ -290,4 +290,3 @@
     </script>
 </body>
 </html>
-
