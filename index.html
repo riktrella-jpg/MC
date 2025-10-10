@@ -207,8 +207,9 @@
                 sourcesContainer.innerHTML = '';
                 
                 // CRUCIAL: Revisa si la clave API está vacía antes de intentar la conexión
-                if (apiKey === "AIzaSyByPz16b5wHOK-1ZUa_O1Qvw7_jTzNh_fM" || apiKey.length < 10) { 
-                    responseDisplay.textContent = "Error de configuración: Por favor, inserta tu clave API real de Gemini en el código.";
+                // CÓDIGO CORREGIDO:
+                if (!apiKey || apiKey.length < 30) { 
+                    responseDisplay.textContent = "Error de configuración: Por favor, inserta tu clave API real de Gemini.";
                     askButton.disabled = false;
                     askButton.textContent = 'Preguntar a Gemini';
                     return;
@@ -290,3 +291,4 @@
     </script>
 </body>
 </html>
+
