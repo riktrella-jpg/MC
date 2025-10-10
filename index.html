@@ -4,169 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Método MANADA: Un Enfoque Integral de Entrenamiento Canino</title>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.manada-card');
-            
-            cards.forEach(card => {
-                card.addEventListener('click', () => {
-                    // Cierra todos los detalles y elimina la clase activa
-                    cards.forEach(c => {
-                        c.querySelector('.manada-detail').classList.add('hidden');
-                        c.classList.remove('card-active');
-                        c.classList.add('hover:border-blue-500'); // Restaura el hover
-                    });
-
-                    // Abre el detalle del elemento clickeado y añade la clase activa
-                    const detail = card.querySelector('.manada-detail');
-                    detail.classList.remove('hidden');
-                    card.classList.add('card-active');
-                    card.classList.remove('hover:border-blue-500'); // Remueve el hover para que la clase activa destaque
-                });
-            });
-
-            // Abrir la primera tarjeta por defecto al cargar (Mindfulness)
-            const firstCard = document.getElementById('card-M');
-            if (firstCard) {
-                firstCard.click();
-            }
-
-            // --- Gemini API Integration Logic ---
-
-            // MODIFICACIÓN CLAVE: Debes insertar tu clave API real aquí.
-            const apiKey = "AIzaSyByPz16b5wHOK-1ZUa_O1Qvw7_jTzNh_fM"; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-            const queryInput = document.getElementById('trainer-query');
-            const askButton = document.getElementById('ask-button');
-            const responseDisplay = document.getElementById('trainer-response');
-            const sourcesContainer = document.getElementById('sources-container');
-
-            // Utility for exponential backoff
-            function sleep(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-            }
-
-            async function fetchWithExponentialBackoff(url, options, maxRetries = 5) {
-                for (let i = 0; i < maxRetries; i++) {
-                    try {
-                        const response = await fetch(url, options);
-                        if (!response.ok) {
-                            if (response.status === 429 && i < maxRetries - 1) { // 429: Too Many Requests
-                                const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
-                                console.warn(`Rate limit exceeded. Retrying in ${delay / 1000}s...`);
-                                await sleep(delay);
-                                continue;
-                            }
-                            // Un error de autenticación (400, 401, 403) debería ser capturado aquí
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response;
-                    } catch (error) {
-                        console.error('Fetch error:', error);
-                        if (i === maxRetries - 1) throw error;
-                        const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
-                        console.warn(`Request failed. Retrying in ${delay / 1000}s...`);
-                        await sleep(delay);
-                    }
-                }
-            }
-
-            async function askTrainerAssistant(userQuery) {
-                if (!userQuery.trim()) {
-                    responseDisplay.textContent = "Por favor, escribe tu pregunta.";
-                    return;
-                }
-
-                // Set UI state to loading
-                askButton.disabled = true;
-                askButton.textContent = '...Pensando (Gemini)...';
-                responseDisplay.textContent = 'Buscando el mejor protocolo de MANADA...';
-                sourcesContainer.innerHTML = '';
-                
-                // CRUCIAL: Revisa si la clave API está vacía antes de intentar la conexión
-                // CÓDIGO CORREGIDO AQUÍ
-                if (!apiKey || apiKey.length < 30) { 
-                    responseDisplay.textContent = "Error de configuración: Por favor, inserta tu clave API real de Gemini.";
-                    askButton.disabled = false;
-                    askButton.textContent = 'Preguntar a Gemini';
-                    return;
-                }
-
-                const systemPrompt = "Actúa como un entrenador canino certificado, experto en la metodología MANADA (Mindfulness, Apego, Normas, Autocontrol, Desensibilización, Acompañamiento). Proporciona consejos concisos, prácticos y basados estrictamente en el refuerzo positivo. Tu respuesta debe estar completamente en español y debe intentar referenciar uno o más pasos del método MANADA si es aplicable. Limita la respuesta a un máximo de 5 frases cortas y claras.";
-
-                const payload = {
-                    contents: [{ parts: [{ text: userQuery }] }],
-                    tools: [{ "google_search": {} }], // Use Google Search for grounding
-                    systemInstruction: {
-                        parts: [{ text: systemPrompt }]
-                    },
-                };
-
-                try {
-                    const response = await fetchWithExponentialBackoff(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    const result = await response.json();
-                    const candidate = result.candidates?.[0];
-
-                    if (candidate && candidate.content?.parts?.[0]?.text) {
-                        const text = candidate.content.parts[0].text;
-                        responseDisplay.textContent = text;
-
-                        let sources = [];
-                        const groundingMetadata = candidate.groundingMetadata;
-
-                        if (groundingMetadata && groundingMetadata.groundingAttributions) {
-                            sources = groundingMetadata.groundingAttributions
-                                .map(attribution => ({
-                                    uri: attribution.web?.uri,
-                                    title: attribution.web?.title,
-                                }))
-                                .filter(source => source.uri && source.title);
-
-                            if (sources.length > 0) {
-                                let sourcesHtml = '<p class="font-bold text-gray-300 mt-4">Fuentes de consulta:</p><ul class="list-disc list-inside space-y-1">';
-                                sources.forEach((source) => {
-                                    sourcesHtml += `<li><a href="${source.uri}" target="_blank" class="text-blue-400 hover:text-blue-300 underline">${source.title || 'Enlace'}</a></li>`;
-                                });
-                                sourcesHtml += '</ul>';
-                                sourcesContainer.innerHTML = sourcesHtml;
-                            }
-                        }
-                    } else {
-                        // Captura errores de respuesta de la API (ej. JSON sin texto)
-                        responseDisplay.textContent = "Error al obtener la respuesta del asistente. Intenta con otra pregunta.";
-                    }
-
-                } catch (error) {
-                    console.error("Gemini API call failed:", error);
-                    responseDisplay.textContent = "Error de conexión con el asistente. Asegúrate de que tu clave API sea correcta e inténtalo de nuevo.";
-                } finally {
-                    askButton.disabled = false;
-                    askButton.textContent = 'Preguntar a Gemini';
-                }
-            }
-
-            // Event Listener for the button
-            if (askButton) {
-                askButton.addEventListener('click', () => {
-                    const query = document.getElementById('trainer-query').value;
-                    askTrainerAssistant(query);
-                });
-                
-                // Allow pressing Enter in the input field
-                queryInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        askButton.click();
-                    }
-                });
-            }
-        });
-    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Estilos personalizados para la tipografía y el fondo */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
@@ -318,7 +156,7 @@
             // --- Gemini API Integration Logic ---
 
             // MODIFICACIÓN CLAVE: Debes insertar tu clave API real aquí.
-            const apiKey = "AIzaSyByPz16b5wHOK-1ZUa_O1Qvw7_jTzNh_fM"; 
+            const apiKey = "AIzaSyByPz16b5wHOK-1ZUa_O1Qvw7_jTzNh_fM"; // ¡REEMPLAZA ESTE TEXTO!
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
             const queryInput = document.getElementById('trainer-query');
@@ -368,10 +206,9 @@
                 responseDisplay.textContent = 'Buscando el mejor protocolo de MANADA...';
                 sourcesContainer.innerHTML = '';
                 
-                // CRUCIAL: Revisa si la clave API está vacía antes de intentar la conexión
-                // CÓDIGO CORREGIDO:
-                if (!apiKey || apiKey.length < 30) { 
-                    responseDisplay.textContent = "Error de configuración: Por favor, inserta tu clave API real de Gemini.";
+                // CRUCIAL: Verificación de clave API corregida.
+                if (apiKey === "AIzaSyByPz16b5wHOK-1ZUa_O1Qvw7_jTzNh_fM" || !apiKey || apiKey.length < 30) { 
+                    responseDisplay.textContent = "Error de configuración: Por favor, inserta tu clave API real de Gemini en la línea 117.";
                     askButton.disabled = false;
                     askButton.textContent = 'Preguntar a Gemini';
                     return;
@@ -382,9 +219,9 @@
                 const payload = {
                     contents: [{ parts: [{ text: userQuery }] }],
                     tools: [{ "google_search": {} }], // Use Google Search for grounding
-                    systemInstruction: {
-                        parts: [{ text: systemPrompt }]
-                    },
+                    config: {
+                         systemInstruction: systemPrompt
+                    }
                 };
 
                 try {
@@ -407,9 +244,9 @@
                         if (groundingMetadata && groundingMetadata.groundingAttributions) {
                             sources = groundingMetadata.groundingAttributions
                                 .map(attribution => ({
-                                    uri: attribution.web?.uri,
-                                    title: attribution.web?.title,
-                                }))
+                                        uri: attribution.web?.uri,
+                                        title: attribution.web?.title,
+                                    }))
                                 .filter(source => source.uri && source.title);
 
                             if (sources.length > 0) {
@@ -423,12 +260,13 @@
                         }
                     } else {
                         // Captura errores de respuesta de la API (ej. JSON sin texto)
-                        responseDisplay.textContent = "Error al obtener la respuesta del asistente. Intenta con otra pregunta.";
+                        console.error("API response error:", result);
+                        responseDisplay.textContent = "Error al obtener la respuesta del asistente. Intenta con otra pregunta o revisa la Consola de tu navegador.";
                     }
 
                 } catch (error) {
                     console.error("Gemini API call failed:", error);
-                    responseDisplay.textContent = "Error de conexión con el asistente. Asegúrate de que tu clave API sea correcta e inténtalo de nuevo.";
+                    responseDisplay.textContent = "Error de conexión con el asistente. Asegúrate de que tu clave API sea correcta y inténtalo de nuevo.";
                 } finally {
                     askButton.disabled = false;
                     askButton.textContent = 'Preguntar a Gemini';
@@ -453,5 +291,3 @@
     </script>
 </body>
 </html>
-
-
