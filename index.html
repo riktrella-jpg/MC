@@ -139,34 +139,61 @@ o
 </main>
 
 <script>
-  // Autoplay robusto + botones
-  (function(){
-    const v = document.getElementById('heroVideo');
-    const soundBtn = document.getElementById('soundBtn');
-    const playBtn  = document.getElementById('playBtn');
-    const err      = document.getElementById('videoError');
+/* ============================================================
+   Pega SOLO tu link MP4 aquí y no toques nada más.
+   Requisitos en tu HTML:
+   - <video id="heroVideo" autoplay muted loop playsinline>…</video>
+   - (opcional) <source id="heroSrc" type="video/mp4">
+   - Botones:  <button id="soundBtn"> y <button id="playBtn">
+   - Mensaje error (opcional): <div id="videoError"></div>
+   ============================================================ */
+const VIDEO_SRC = "https://riktrella-jpg.github.io/Sora-Videos/assets/sora.mp4"; // ⬅️ PÉGALO AQUÍ
 
-    const tryPlay = () => v.play().catch(()=>{ /* algunos navegadores requieren interacción */ });
-    window.addEventListener('load', tryPlay);
-    document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) tryPlay(); });
+(function () {
+  const v   = document.getElementById('heroVideo');
+  const s   = document.getElementById('heroSrc');     // opcional
+  const btn = document.getElementById('soundBtn');    // opcional
+  const play= document.getElementById('playBtn');     // opcional
+  const err = document.getElementById('videoError');  // opcional
 
-    v.addEventListener('error', () => { err.style.display='block'; });
-    const source = v.querySelector('source');
-    if (source) source.addEventListener('error', ()=>{ err.style.display='block'; });
+  if (!v) return;
 
-    soundBtn.addEventListener('click', async () => {
+  // Carga la URL (usa <source> si existe; si no, asigna al <video>)
+  if (s) { s.src = VIDEO_SRC; v.load(); }
+  else   { v.src = VIDEO_SRC; }
+
+  // Autoplay robusto (silencioso)
+  const tryPlay = () => v.play().catch(()=>{ /* algunos navegadores requieren interacción */ });
+  window.addEventListener('load', tryPlay);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
+
+  // Mostrar error si falla la carga o reproducción
+  const showErr = (msg) => { if (err) { err.style.display = 'block'; if (msg) err.textContent = msg; } };
+  v.addEventListener('error', () => showErr('No se pudo reproducir el video. Verifica la URL MP4.'));
+  if (s) s.addEventListener('error', () => showErr('No se pudo cargar la fuente del video.'));
+
+  // Botón de sonido (opcional)
+  if (btn) {
+    btn.addEventListener('click', async () => {
       v.muted = !v.muted;
-      soundBtn.textContent = v.muted ? '🔇 Silencio' : '🔊 Sonido';
       if (!v.muted) { try { await v.play(); } catch(e){} }
+      btn.textContent = v.muted ? '🔇 Silencio' : '🔊 Sonido';
+      btn.setAttribute('aria-pressed', String(!v.muted));
     });
+  }
 
-    playBtn.addEventListener('click', async () => {
-      if (v.paused) { try { await v.play(); } catch(e){}; playBtn.textContent='⏸ Pausa'; }
-      else { v.pause(); playBtn.textContent='▶️ Reproducir'; }
+  // Botón reproducir/pausa (opcional)
+  if (play) {
+    play.addEventListener('click', async () => {
+      if (v.paused) { try { await v.play(); } catch(e){}; play.textContent = '⏸ Pausa'; }
+      else { v.pause(); play.textContent = '▶️ Reproducir'; }
     });
-  })();
+  }
+})();
 </script>
+
 
 </body>
 </html>
+
 
