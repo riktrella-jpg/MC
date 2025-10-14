@@ -1,294 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Método MANADA: Un Enfoque Integral de Entrenamiento Canino</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Estilos personalizados para la tipografía y el fondo */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.5s ease;
-        }
-        /* Estilo para la tarjeta activa */
-        .card-active {
-            transform: scale(1.02);
-            border-color: #3b82f6; /* blue-500 */
-            box-shadow: 0 15px 20px -5px rgba(52, 117, 221, 0.5), 0 4px 6px -2px rgba(59, 130, 246, 0.2);
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manada Club — Binomio Canino & TEA</title>
+<!-- SORA + INTER -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b1220; --panel:#0f1b31; --muted:#9fb3cc; --text:#eaf6ff;
+  --a:#7bd3ff; --b:#2ab3a6; --c:#ff8a34; --d:#f08ddb;
+  --heading:"Sora",system-ui,Inter,Roboto,sans-serif;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,sans-serif}
+.container{max-width:1150px;margin:0 auto;padding:clamp(16px,2vw,24px)}
+.hero{position:relative;overflow:hidden;padding:clamp(56px,8vw,100px) 0;
+  background:radial-gradient(1200px 480px at 10% -10%, rgba(42,179,166,.18) 0%, transparent 60%),
+             linear-gradient(180deg,#0b1220 0%,#0c1730 60%,#0b1220 100%); isolation:isolate}
+.hero::after{content:"";position:absolute;inset:-30% -10% -20% -10%;opacity:.12;
+  background-image:radial-gradient(#7bbcf5 26%,transparent 27%);
+  background-size:28px 28px;animation:bg 18s linear infinite alternate}
+@keyframes bg{to{transform:translateY(24px)}}
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(18px,4vw,48px);align-items:center}
+@media (max-width:960px){.grid{grid-template-columns:1fr}}
+.badge{display:inline-flex;gap:.6rem;align-items:center;padding:.5rem .9rem;border-radius:999px;
+  color:#5a3b19;background:#ffeedb;border:1px dashed #ffb37a;font-weight:700}
+.title{font-family:var(--heading);line-height:1.02;letter-spacing:-.5px;margin:10px 0 6px}
+.title .sub{font-size:clamp(28px,3.8vw,46px);font-weight:800;color:#cfe6ff}
+.title .big{font-size:clamp(44px,6.5vw,94px);font-weight:800;
+  background:linear-gradient(90deg,var(--a),var(--b),var(--c),var(--d));
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 18px 40px rgba(0,0,0,.25);animation:hue 9s linear infinite}
+@keyframes hue{to{background-position:200% 0}}
+.p{color:var(--muted);font-size:clamp(16px,2vw,18px);max-width:58ch}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.btn{display:inline-flex;gap:.6rem;align-items:center;font-weight:800;border-radius:14px;padding:1rem 1.25rem;border:2px solid transparent;transition:filter .15s, transform .1s}
+.btn:active{transform:translateY(1px)}
+.primary{background:var(--c);color:#0b1a27;box-shadow:0 10px 28px rgba(255,138,52,.28)}
+.secondary{background:transparent;border-color:var(--b);color:#bff7ee}
+.tertiary{background:transparent;border-color:#7bd3ff;color:#9fdfff}
+.secondary:hover,.tertiary:hover{filter:brightness(1.1)}
+.card{background:#fff;color:#102234;border-radius:20px;padding:14px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.card img{display:block;width:100%;border-radius:14px}
+.card figcaption{color:#5a6f85;margin-top:8px}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+</style>
 </head>
-<body class="bg-gray-900 text-white min-h-screen p-4 sm:p-8">
-
-    <div class="max-w-6xl mx-auto">
-        <header class="text-center mb-12">
-            <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight text-blue-400 mb-4">
-                Método <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-red-500">MANADA</span>
-            </h1>
-            <p class="text-xl sm:text-2xl text-gray-300 max-w-2xl mx-auto">
-                Un sistema de 6 pasos para construir un vínculo fuerte y un perro equilibrado.
-            </p>
-            <div class="mt-6 p-4 bg-gray-800 rounded-xl shadow-lg border border-gray-700">
-                <p class="italic text-yellow-400 font-semibold">
-                    "Con mi MANADA avanzo del Momento zen al Acompañamiento real."
-                </p>
-            </div>
-        </header>
-
-        <main id="manada-grid" class="flex space-x-6 overflow-x-auto py-2">
-            
-            <div id="card-M" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg flex-shrink-0 w-64" data-key="M">
-                <h2 class="text-4xl font-black text-blue-400">M</h2>
-                <h3 class="text-xl font-semibold mt-1">Mindfulness Canino</h3>
-                <p class="text-sm text-gray-400 mt-2">Calma y Respiración Guiada con el Tutor.</p>
-                <div class="mt-4 text-gray-300 manada-detail hidden">
-                    <p class="font-bold mb-1">Concepto:</p>
-                    <p class="text-sm">Enseñar al perro a estar tranquilo en presencia de su tutor (Momento Zen). Se usan masajes, respiración controlada y ejercicios de relajación para bajar el ritmo cardíaco y mental.</p>
-                </div>
-            </div>
-
-            <div id="card-A1" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg flex-shrink-0 w-64" data-key="A1">
-                <h2 class="text-4xl font-black text-yellow-400">A</h2>
-                <h3 class="text-xl font-semibold mt-1">Apego Seguro</h3>
-                <p class="text-sm text-gray-400 mt-2">Creación de Vínculo y Señales de Confianza.</p>
-                <div class="mt-4 text-gray-300 manada-detail hidden">
-                    <p class="font-bold mb-1">Concepto:</p>
-                    <p class="text-sm">Fomentar una relación de confianza y seguridad, donde el perro ve al humano como un puerto seguro. Esto minimiza la necesidad de hipervigilancia o ansiedad por separación.</p>
-                </div>
-            </div>
-            
-            <div id="card-N" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg flex-shrink-0 w-64" data-key="N">
-                <h2 class="text-4xl font-black text-green-400">N</h2>
-                <h3 class="text-xl font-semibold mt-1">Normas Básicas</h3>
-                <p class="text-sm text-gray-400 mt-2">"Sentado", "Quieto", "Junto" y Llamadas Fiables.</p>
-                <div class="mt-4 text-gray-300 manada-detail hidden">
-                    <p class="font-bold mb-1">Concepto:</p>
-                    <p class="text-sm">Enseñar comandos de obediencia funcional que son esenciales para la seguridad y la convivencia. Se utiliza el refuerzo positivo para lograr precisión y motivación.</p>
-                </div>
-            </div>
-
-            <div id="card-A2" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg flex-shrink-0 w-64" data-key="A2">
-                <h2 class="text-4xl font-black text-red-400">A</h2>
-                <h3 class="text-xl font-semibold mt-1">Autocontrol</h3>
-                <p class="text-sm text-gray-400 mt-2">Tolerancia a la Frustración y Gestión de Impulsos.</p>
-                <div class="mt-4 text-gray-300 manada-detail hidden">
-                    <p class="font-bold mb-1">Concepto:</p>
-                    <p class="text-sm">Enseñar al perro a manejar sus emociones (impulsos, frustración) de forma constructiva, por ejemplo, esperando la señal en lugar de actuar impulsivamente.</p>
-                </div>
-            </div>
-
-            <div id="card-D" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg flex-shrink-0 w-64" data-key="D">
-                <h2 class="text-4xl font-black text-purple-400">D</h2>
-                <h3 class="text-xl font-semibold mt-1">Desensibilización</h3>
-                <p class="text-sm text-gray-400 mt-2">Exposición Gradual a Estímulos Aversivos.</p>
-                <div class="mt-4 text-gray-300 manada-detail hidden">
-                    <p class="font-bold mb-1">Concepto:</p>
-                    <p class="text-sm">Protocolo para tratar miedos y fobias (ruidos, gente). Consiste en exponer al perro al estímulo a un nivel tan bajo que no produzca miedo, asociándolo siempre con algo positivo.</p>
-                </div>
-            </div>
-
-            <div id="card-A3" class="manada-card bg-gray-800 p-6 rounded-2xl border-2 border-gray-700 hover:border-blue-500 transition duration-300 cursor-pointer shadow-lg flex-shrink-0 w-64" data-key="A3">
-                <h2 class="text-4xl font-black text-teal-400">A</h2>
-                <h3 class="text-xl font-semibold mt-1">Acompañamiento Público</h3>
-                <p class="text-sm text-gray-400 mt-2">Protocolos en Calle, Cafés, Clínicas y Transporte.</p>
-                <div class="mt-4 text-gray-300 manada-detail hidden">
-                    <p class="font-bold mb-1">Concepto:</p>
-                    <p class="text-sm">Generalizar todas las habilidades aprendidas (calma, obediencia, autocontrol) a entornos urbanos complejos, asegurando una convivencia social respetuosa y segura.</p>
-                </div>
-            </div>
-        </main>
-
-        <div class="mt-12 text-center p-6 bg-gray-800 rounded-xl shadow-xl">
-            <p class="text-lg font-semibold text-white">¡Haz clic en cualquiera de las letras M-A-N-A-D-A para descubrir el concepto completo de cada fase!</p>
-        </div>
-
-        <section class="mt-12 p-8 bg-gray-800 rounded-2xl shadow-2xl border-2 border-yellow-500/50">
-            <h2 class="text-3xl font-bold text-center text-blue-200 mb-6 flex items-center justify-center">
-                <span class="mr-3">✨ Entrenador Asistente MANADA✨</span>
-            </h2>
-            <p class="text-center text-gray-300 mb-6">
-                Describe una situación o pregunta de entrenamiento (ej: "¿Cómo aplico Autocontrol a un perro que roba comida de la mesa?")
-            </p>
-
-            <div class="flex flex-col md:flex-row gap-4 mb-6">
-                <input type="text" id="trainer-query" placeholder="Escribe tu pregunta sobre entrenamiento o comportamiento..." class="flex-grow p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                <button id="ask-button" class="bg-green-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md transform active:scale-95 disabled:bg-gray-500 disabled:cursor-not-allowed">
-                    Preguntar a Gemini
-                </button>
-            </div>
-
-            <div id="trainer-response-container" class="mt-6 border-t border-gray-700 pt-6">
-                <p id="trainer-response" class="text-gray-200 whitespace-pre-wrap">Aquí aparecerá el consejo de entrenamiento de nuestro asistente virtual.</p>
-                <div id="sources-container" class="text-sm text-gray-400 mt-4"></div>
-            </div>
-        </section>
+<body>
+<header class="hero">
+  <div class="container grid">
+    <div class="reveal">
+      <span class="badge">🐾 Manada Club · Binomio Canino · Apoyo para TEA</span>
+      <h1 class="title">
+        <span class="sub">Un binomio que acompaña y empodera</span><br>
+        <span class="big">MANADA CLUB</span>
+      </h1>
+      <p class="p">Seguridad, calma e inclusión social con apoyo canino ético y basado en evidencia.</p>
+      <div class="ctas">
+        <a class="btn primary" href="#form">Solicitar orientación gratuita</a>
+        <a class="btn secondary" href="#evidencia">Ver evidencia</a>
+        <!-- CTA Sora -->
+        <a class="btn tertiary" href="https://sora.chatgpt.com/g/gen_01k709j506ewm98cpyzmaf6b34" target="_blank" rel="noopener">▶ Ver Sora</a>
+      </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.manada-card');
-            
-            cards.forEach(card => {
-                card.addEventListener('click', () => {
-                    // Cierra todos los detalles y elimina la clase activa
-                    cards.forEach(c => {
-                        c.querySelector('.manada-detail').classList.add('hidden');
-                        c.classList.remove('card-active');
-                        c.classList.add('hover:border-blue-500'); // Restaura el hover
-                    });
-
-                    // Abre el detalle del elemento clickeado y añade la clase activa
-                    const detail = card.querySelector('.manada-detail');
-                    detail.classList.remove('hidden');
-                    card.classList.add('card-active');
-                    card.classList.remove('hover:border-blue-500'); // Remueve el hover para que la clase activa destaque
-                });
-            });
-
-            // Abrir la primera tarjeta por defecto al cargar (Mindfulness)
-            const firstCard = document.getElementById('card-M');
-            if (firstCard) {
-                firstCard.click();
-            }
-
-            // --- Gemini API Integration Logic ---
-
-            // MODIFICACIÓN CLAVE: Debes insertar tu clave API real aquí.
-            const apiKey = "AIzaSyByPz16b5wHOK-1ZUa_O1Qvw7_jTzNh_fM";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-            const queryInput = document.getElementById('trainer-query');
-            const askButton = document.getElementById('ask-button');
-            const responseDisplay = document.getElementById('trainer-response');
-            const sourcesContainer = document.getElementById('sources-container');
-
-            // Utility for exponential backoff
-            function sleep(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-            }
-
-            async function fetchWithExponentialBackoff(url, options, maxRetries = 5) {
-                for (let i = 0; i < maxRetries; i++) {
-                    try {
-                        const response = await fetch(url, options);
-                        if (!response.ok) {
-                            if (response.status === 429 && i < maxRetries - 1) { // 429: Too Many Requests
-                                const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
-                                console.warn(`Rate limit exceeded. Retrying in ${delay / 1000}s...`);
-                                await sleep(delay);
-                                continue;
-                            }
-                            // Un error de autenticación (400, 401, 403) debería ser capturado aquí
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response;
-                    } catch (error) {
-                        console.error('Fetch error:', error);
-                        if (i === maxRetries - 1) throw error;
-                        const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
-                        console.warn(`Request failed. Retrying in ${delay / 1000}s...`);
-                        await sleep(delay);
-                    }
-                }
-            }
-
-            async function askTrainerAssistant(userQuery) {
-                if (!userQuery.trim()) {
-                    responseDisplay.textContent = "Por favor, escribe tu pregunta.";
-                    return;
-                }
-
-                // Set UI state to loading
-                askButton.disabled = true;
-                askButton.textContent = '...Pensando (Gemini)...';
-                responseDisplay.textContent = 'Buscando el mejor protocolo de MANADA...';
-                sourcesContainer.innerHTML = '';
-                
-                // CRUCIAL: Verificación de clave API corregida.
-                if (apiKey === "AIzaSyByPz16b5wHOK-1ZUa_O1Qvw7_jTzNh_fM" || !apiKey || apiKey.length < 30) { 
-                    responseDisplay.textContent = "Error de configuración: Por favor, inserta tu clave API real de Gemini en la línea 117.";
-                    askButton.disabled = false;
-                    askButton.textContent = 'Preguntar a Gemini';
-                    return;
-                }
-
-                const systemPrompt = "Actúa como un entrenador canino certificado, experto en la metodología MANADA (Mindfulness, Apego, Normas, Autocontrol, Desensibilización, Acompañamiento). Proporciona consejos concisos, prácticos y basados estrictamente en el refuerzo positivo. Tu respuesta debe estar completamente en español y debe intentar referenciar uno o más pasos del método MANADA si es aplicable. Limita la respuesta a un máximo de 5 frases cortas y claras.";
-
-                const payload = {
-                    contents: [{ parts: [{ text: userQuery }] }],
-                    tools: [{ "google_search": {} }], // Use Google Search for grounding
-                    config: {
-                         systemInstruction: systemPrompt
-                    }
-                };
-
-                try {
-                    const response = await fetchWithExponentialBackoff(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    const result = await response.json();
-                    const candidate = result.candidates?.[0];
-
-                    if (candidate && candidate.content?.parts?.[0]?.text) {
-                        const text = candidate.content.parts[0].text;
-                        responseDisplay.textContent = text;
-
-                        let sources = [];
-                        const groundingMetadata = candidate.groundingMetadata;
-
-                        if (groundingMetadata && groundingMetadata.groundingAttributions) {
-                            sources = groundingMetadata.groundingAttributions
-                                .map(attribution => ({
-                                        uri: attribution.web?.uri,
-                                        title: attribution.web?.title,
-                                    }))
-                                .filter(source => source.uri && source.title);
-
-                            if (sources.length > 0) {
-                                let sourcesHtml = '<p class="font-bold text-gray-300 mt-4">Fuentes de consulta:</p><ul class="list-disc list-inside space-y-1">';
-                                sources.forEach((source) => {
-                                    sourcesHtml += `<li><a href="${source.uri}" target="_blank" class="text-blue-400 hover:text-blue-300 underline">${source.title || 'Enlace'}</a></li>`;
-                                });
-                                sourcesHtml += '</ul>';
-                                sourcesContainer.innerHTML = sourcesHtml;
-                            }
-                        }
-                    } else {
-                        // Captura errores de respuesta de la API (ej. JSON sin texto)
-                        console.error("API response error:", result);
-                        responseDisplay.textContent = "Error al obtener la respuesta del asistente. Intenta con otra pregunta o revisa la Consola de tu navegador.";
-                    }
-
-                } catch (error) {
-                    console.error("Gemini API call failed:", error);
-                    responseDisplay.textContent = "Error de conexión con el asistente. Asegúrate de que tu clave API sea correcta y inténtalo de nuevo.";
-                } finally {
-                    askButton.disabled = false;
-                    askButton.textContent = 'Preguntar a Gemini';
-                }
-            }
-
-            // Event Listener for the button
-            if (askButton) {
-                askButton.addEventListener('click', () => {
-                    const query = document.getElementById('trainer-query').value;
-                    askTrainerAssistant(query);
-                });
-                
-                // Allow pressing Enter in the input field
-                queryInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        askButton.click();
-                    }
-                });
-            }
-        });
-    </script>
+    <figure class="card reveal" aria-label="Imagen hero">
+      <img src="assets/hero-perrita.jpg" alt="Perrita sobre plataforma en evento comunitario">
+      <figcaption>Rutinas que dan seguridad en familia y comunidad.</figcaption>
+    </figure>
+  </div>
+</header>
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('in')),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
 </body>
 </html>
-
